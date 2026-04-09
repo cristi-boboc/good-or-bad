@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Good or Bad? - Multiplayer Party Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%E2%9C%A8</text></svg>">
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js" defer></script>
+</head>
+<body>
+    <!-- Home Screen -->
+    <div id="screen-home" class="screen active">
+        <div class="container">
+            <div class="logo">
+                <h1 class="title">Good <span class="or">or</span> Bad<span class="q">?</span></h1>
+                <div class="title-glow"></div>
+            </div>
+            <p class="subtitle">Quick reflexes. Sharp eyes. Don't grab the bad ones!</p>
+            <div class="menu-buttons">
+                <button id="btn-host" class="btn btn-primary">Host Game</button>
+                <button id="btn-join" class="btn btn-secondary">Join Game</button>
+            </div>
+            <p class="hint-text">First to 6 points wins!</p>
+        </div>
+    </div>
+
+    <!-- Host Setup Screen -->
+    <div id="screen-host-setup" class="screen">
+        <div class="container">
+            <h2>Host a Game</h2>
+            <div class="form-group">
+                <label for="host-name">Your Name</label>
+                <input type="text" id="host-name" maxlength="12" placeholder="Enter your name..." autocomplete="off">
+            </div>
+            <div class="btn-row">
+                <button id="btn-create" class="btn btn-primary">Create Game</button>
+                <button class="btn btn-back btn-ghost" data-screen="home">Back</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Join Setup Screen -->
+    <div id="screen-join-setup" class="screen">
+        <div class="container">
+            <h2>Join a Game</h2>
+            <div class="form-group">
+                <label for="join-name">Your Name</label>
+                <input type="text" id="join-name" maxlength="12" placeholder="Enter your name..." autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="join-pin">Game PIN</label>
+                <input type="text" id="join-pin" maxlength="5" placeholder="_ _ _ _ _" class="pin-input" inputmode="numeric" autocomplete="off">
+            </div>
+            <div class="btn-row">
+                <button id="btn-connect" class="btn btn-primary">Join</button>
+                <button class="btn btn-back btn-ghost" data-screen="home">Back</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lobby Screen -->
+    <div id="screen-lobby" class="screen">
+        <div class="container">
+            <h2>Game Lobby</h2>
+            <div class="pin-display">
+                <span class="pin-label">Share this PIN:</span>
+                <span id="lobby-pin" class="pin-code"></span>
+            </div>
+            <div id="players-list" class="players-list"></div>
+            <p id="lobby-status" class="status-text">Waiting for players...</p>
+            <div class="btn-row">
+                <button id="btn-start" class="btn btn-primary" style="display:none">Start Game</button>
+            </div>
+            <div class="guide-section">
+                <h3>How to spot the difference:</h3>
+                <div id="item-guide" class="item-guide"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="screen-game" class="screen">
+        <div id="scoreboard" class="scoreboard"></div>
+        <div id="game-table" class="game-table">
+            <div id="players-ring" class="players-ring"></div>
+            <div id="center-stage" class="center-stage">
+                <div id="round-announce" class="round-announce"></div>
+                <div id="countdown-display" class="countdown-display"></div>
+                <canvas id="item-canvas" width="180" height="180"></canvas>
+                <div id="cover" class="cover">
+                    <div class="cover-icon">?</div>
+                </div>
+                <div id="result-flash" class="result-flash"></div>
+            </div>
+        </div>
+        <button id="btn-grab" class="btn-grab" disabled>
+            <span class="grab-text">GRAB!</span>
+        </button>
+        <div id="game-message" class="game-message"></div>
+    </div>
+
+    <!-- Game Over Screen -->
+    <div id="screen-gameover" class="screen">
+        <div class="container">
+            <div class="trophy">&#127942;</div>
+            <h2 class="winner-title">Winner!</h2>
+            <div id="winner-name" class="winner-name"></div>
+            <div id="winner-score" class="winner-score"></div>
+            <div id="final-scores" class="final-scores"></div>
+            <div class="btn-row">
+                <button id="btn-play-again" class="btn btn-primary">Play Again</button>
+                <button id="btn-home" class="btn btn-ghost">Home</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Connection overlay -->
+    <div id="overlay" class="overlay" style="display:none">
+        <div class="overlay-content">
+            <div class="spinner"></div>
+            <p id="overlay-text">Connecting...</p>
+        </div>
+    </div>
+
+    <!-- Audio toggle -->
+    <button id="btn-audio" class="btn-audio" title="Toggle Sound">&#128266;</button>
+
+    <script src="audio.js"></script>
+    <script src="items.js"></script>
+    <script src="network.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
